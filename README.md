@@ -5,8 +5,8 @@
 
 # Required packages:
 
-## Git files
-+ Install all Git files and place them in a main folder
+## Repository files
++ Install all files and place them in a main folder
 
 ## Python packages:
 + For python packages needed, in your main folder, run:
