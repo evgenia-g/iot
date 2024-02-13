@@ -7,7 +7,7 @@
 
 ## Repository files
 + Install all files and place them in a main folder
-+ Download GitRepo_LargeFiles from [here](https://www.dropbox.com/scl/fo/xkffl87ia2yy5pp4ahwvg/h?rlkey=nb8zr8kwkz41wdny6tdgwtgec&dl=0) and add it in the same folder as the rest of the files
++ Download GitRepo_LargeFiles from [here](https://www.dropbox.com/scl/fo/xkffl87ia2yy5pp4ahwvg/h?rlkey=nb8zr8kwkz41wdny6tdgwtgec&dl=0) and place it in the same folder as the rest of the files
 
 ## Python packages:
 + For python packages needed, in your main folder, run:
