@@ -189,9 +189,9 @@ async def read_locations(file_path, start_row=None, end_row=None, skip_value=Non
 
 async def process_frame_async(frame: np.ndarray, _) -> np.ndarray:
     global max_people
-    results = model(frame, imgsz=1280)[0]
+    results = model(frame, imgsz=1280, agnostic_nms = True, classes=[0])[0]
     detections = sv.Detections.from_yolov8(results)
-    detections = detections[detections.class_id == 0]
+    #detections = detections[detections.class_id == 0]
     zone.trigger(detections=detections)
 
     box_annotator = sv.BoxAnnotator(thickness=4, text_thickness=4, text_scale=2)

@@ -115,7 +115,7 @@ tSlocations = [ [38.24674692664068, 21.73598679633868],
 
 # Iterator for cycling through the values
 #values_iterator = itertools.cycle(['5', '20', '15'])
-random_values = ['0', '2', '5', '8', '11', '15', '19', '23']
+random_values = [0, 2, 5, 8, 11, 15, 19, 23]
 
 # Define the endpoint to receive data
 @app.route('/receive_data', methods=['POST'])
@@ -282,8 +282,8 @@ async def run_when_paused(session):
 
         #cap = cv2.VideoCapture(0)
         VIDEO_PATH =  os.path.join(file_in_parent_folder, "prytan.mp4")
-        YOLO_PATH = os.path.join(file_in_parent_folder, "crowdhuman_yolo5m.pt")
-        #YOLO_PATH = os.path.join(file_in_parent_folder, "yolov8l.pt")
+        #YOLO_PATH = os.path.join(file_in_parent_folder, "crowdhuman_yolo5m.pt")
+        YOLO_PATH = os.path.join(file_in_parent_folder, "yolov8l.pt")
 
         cap = cv2.VideoCapture(VIDEO_PATH)
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
@@ -292,8 +292,8 @@ async def run_when_paused(session):
         if not cap.isOpened():
             print("Error: Could not open video.")
 
-        #model1 = YOLO("yolov8l.pt")
-        model = torch.hub.load('ultralytics/yolov5', 'custom', path=YOLO_PATH)
+        model1 = YOLO(YOLO_PATH)
+        #model = torch.hub.load('ultralytics/yolov5', 'custom', path=YOLO_PATH)
 
         box_annotator = sv.BoxAnnotator(
             thickness=1,
@@ -323,33 +323,34 @@ async def run_when_paused(session):
                 break
 
             if(frame_counter % 300 == 0):  # Process every 300 frames
-                result = model(frame)
-                detections = sv.Detections.from_yolov5(result)
-                labels = [
-                    f"{model.model.names[class_id]} {confidence:0.2f}"
-                    for _, confidence, class_id, _
-                    in detections
-                ]
-                detections_0 = detections[detections.class_id == 0]
-                frame = box_annotator.annotate(
-                    scene=frame,
-                    detections=detections_0,
-                    labels=labels
-                )
-
-                # # Yolo 8
-                # result1 = model1(frame, agnostic_nms = True, classes=[0])[0]
-                # detections1 = sv.Detections.from_yolov8(result1)    
-                # labels1 = [
-                #     f"{model1.model.names[class_id1]} {confidence1:0.2f}"
-                #     for _, confidence1, class_id1, _
-                #     in detections1
+                # # Yolo 5
+                # result = model(frame)
+                # detections = sv.Detections.from_yolov5(result)
+                # labels = [
+                #     f"{model.model.names[class_id]} {confidence:0.2f}"
+                #     for _, confidence, class_id, _
+                #     in detections
                 # ]
+                # detections_0 = detections[detections.class_id == 0]
                 # frame = box_annotator.annotate(
-                #     scene=frame, 
-                #     detections=detections1,
-                #     labels=labels1
+                #     scene=frame,
+                #     detections=detections_0,
+                #     labels=labels
                 # )
+
+                # Yolo 8
+                result1 = model1(frame, agnostic_nms = True, classes=[0])[0]
+                detections1 = sv.Detections.from_yolov8(result1)    
+                labels1 = [
+                    f"{model1.model.names[class_id1]} {confidence1:0.2f}"
+                    for _, confidence1, class_id1, _
+                    in detections1
+                ]
+                frame = box_annotator.annotate(
+                    scene=frame, 
+                    detections=detections1,
+                    labels=labels1
+                )
 
                 # # Bus detection
                 # result1 = model1(frame, agnostic_nms = True, classes=[5])[0]
@@ -367,11 +368,11 @@ async def run_when_paused(session):
                 # if(len(detections1)!=0): bus_detection = True
                 # else: bus_detection = False
                 
-                await post_async(session, edge_controller_url, {'id': crowdFlowObservedIDs[5], 'value': len(detections_0),
+                await post_async(session, edge_controller_url, {'id': crowdFlowObservedIDs[5], 'value': len(detections1),
                                                                 'dateObserved': datetime.datetime.now().isoformat(),
                                                                 'station': None,
                                                                 'entityName': transportStationNames[5]})
-                zone.trigger(detections=detections_0)
+                zone.trigger(detections=detections1)
                 frame = zone_annotator.annotate(scene=frame)
                 await post_async(session, second_endpoint_url, {'id': transportStationIDs[5],
                                                                 'vID': None,
@@ -382,7 +383,7 @@ async def run_when_paused(session):
                                                                 'name': transportStationNames[5],
                                                                 'tVid': "_"})
             
-            cv2.imshow("yolov5", frame)
+            cv2.imshow("yolov8", frame)
 
             if (cv2.waitKey(1) == ord('q')):
                 break
