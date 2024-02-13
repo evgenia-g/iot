@@ -4,6 +4,8 @@ const axios = require('axios');
 
 const app = express();
 
+const nothign = 0;
+
 const createEntities = async (latitude, longitude) => {
   const entityData = {
     id: 'bus123',
