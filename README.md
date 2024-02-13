@@ -14,6 +14,10 @@
 ```bash
 pip install Flask pymongo Flask-RESTful requests aiohttp flask schedule opencv-python torch ultralytics supervisely paho-mqtt numpy pandas torchvision detectron2
 ```
++ If detectron2 fails to install, use this command instead:
+```bash
+python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
+```
 
 ## Node.js packages:
 + For Node.js packages, in frontEnd-backEnd folder, run:
