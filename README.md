@@ -15,7 +15,7 @@ pip install Flask pymongo Flask-RESTful requests aiohttp flask schedule opencv-p
 ```
 
 ## Node.js packages:
-+ For Node.js packages, in your main folder, run:
++ For Node.js packages, in frontEnd-backEnd folder, run:
 ```bash
 npm install express cors axios body-parser node-fetch@2.6.1 nodemailer xlsx socket.io
 ```
