@@ -5,7 +5,7 @@
 
 # Required packages:
 
-## Gut files
+## Git files
 + Install all Git files and place them in a main folder
 
 ## Python packages:
