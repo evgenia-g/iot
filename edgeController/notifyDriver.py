@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request
 import requests
 import schedule
@@ -7,8 +8,8 @@ app = Flask(__name__)
 
 chatIDs = []
 
-# Replace 'YOUR TELEGRAM BOT TOKEN' with your actual Telegram Bot token
-TOKEN = 'REDACTED'
+# Telegram bot token is read from the TELEGRAM_BOT_TOKEN environment variable (never commit it)
+TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '')
 TELEGRAM_API_BASE_URL = f"https://api.telegram.org/bot{TOKEN}/"
 
 def read_words_from_file(file_path):

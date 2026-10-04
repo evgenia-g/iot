@@ -499,7 +499,7 @@
         }
         async function drive_toStation(origin, destination) {
             try {
-                const response = await fetch(`http://localhost:3000/googlemaps?origin=${origin}&destination=${destination}&mode=driving&key=REDACTED`);
+                const response = await fetch(`http://localhost:3000/googlemaps?origin=${origin}&destination=${destination}&mode=driving&key=YOUR_GOOGLE_MAPS_API_KEY`);
                 const data = await response.json();
                 const times = [];
                 
@@ -977,7 +977,7 @@
 
     </script>
     
-    <script src="https://maps.googleapis.com/maps/api/js?key=REDACTED&callback=initMap&libraries=places,geometry&solution_channel=GMP_QB_commutes_v2_c" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap&libraries=places,geometry&solution_channel=GMP_QB_commutes_v2_c" async defer></script>
     </body>
 </html>
     
